@@ -75,6 +75,8 @@ const Slide = styled.img`
   object-fit: contain;
   flex-shrink: 0;
   cursor: pointer;
+
+
 `;
 
 const DotsWrapper = styled.div`

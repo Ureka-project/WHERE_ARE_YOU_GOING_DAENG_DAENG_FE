@@ -5,8 +5,8 @@ import logoutImage from "../../assets/icons/home_logout.svg";
 const LogoutImage = styled.img`
   width: 100%;
   height: 148px;
-  margin-top: 30px;
   cursor: pointer; 
+  margin-top:10px;
 
   @media (max-width: 554px) {
     height: 50%;
