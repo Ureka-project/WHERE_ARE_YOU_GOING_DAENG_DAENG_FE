@@ -4,6 +4,7 @@ import crown from "../../assets/icons/crown.svg";
 import defaultImg from "../../assets/icons/reviewDefaultImg.svg"; 
 
 const Bubble = styled.div`
+  font-size: 15px;
   position: relative;
   background-color: white;
   border: 5px solid #FF69A9;
@@ -73,13 +74,13 @@ const PetsWrapper = styled.div`
 
 const PetsContainer = styled.div`
   overflow: hidden;
-  width: ${({ isCentered }) => (isCentered ? "auto" : "180px")}; /* 3마리 미만일 땐 자동 크기 */
+  width: ${({ isCentered }) => (isCentered ? "auto" : "180px")};
 `;
 
 const PetList = styled.div`
   display: flex;
-  justify-content: ${({ isCentered }) => (isCentered ? "center" : "flex-start")}; /* 중앙 정렬 */
-  transform: translateX(${(props) => (props.isCentered ? 0 : props.translateX)}px); /* 3마리 미만일 땐 이동 없음 */
+  justify-content: ${({ isCentered }) => (isCentered ? "center" : "flex-start")};
+  transform: translateX(${(props) => (props.isCentered ? 0 : props.translateX)}px);
   transition: transform 0.5s ease;
   gap: 15px;
 `;
@@ -98,19 +99,23 @@ const PetImage = styled.img`
 const LandOwnerProfile = ({ area, nickname, pets, hops }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const itemsPerPage = 3;
-  const itemWidth = 65; // 각 카드의 너비 + 간격 (50px + 15px)
+  const itemWidth = 65;
   const maxIndex = Math.ceil(pets.length / itemsPerPage) - 1;
 
-  const isCentered = pets.length <= itemsPerPage; // 3마리 이하일 때 중앙 정렬
+  const isCentered = pets.length <= itemsPerPage;
 
   useEffect(() => {
     if (!isCentered) {
       const interval = setInterval(() => {
         setCurrentIndex((prev) => (prev < maxIndex ? prev + 1 : 0));
-      }, 3000); // 3초마다 슬라이드 이동
+      }, 3000);
       return () => clearInterval(interval);
     }
   }, [isCentered, maxIndex]);
+
+  if(!nickname){
+    return <Bubble>땅 주인이 없습니다.</Bubble>
+  }
 
   return (
     <Bubble>
@@ -129,9 +134,9 @@ const LandOwnerProfile = ({ area, nickname, pets, hops }) => {
             translateX={-currentIndex * itemsPerPage * itemWidth}
           >
             {pets.map((pet) => (
-              <PetCard key={pet.id}>
-                <PetImage src={pet.img || defaultImg} alt={`${pet.name || "기본 이미지"} 사진`} />
-                <div>{pet.name}</div>
+              <PetCard key={pet.petId}>
+                <PetImage src={pet.petImg? pet.petImg : defaultImg} alt={`${pet.petName || "기본 이미지"} 사진`} />
+                <div>{pet.petName}</div>
               </PetCard>
             ))}
           </PetList>
